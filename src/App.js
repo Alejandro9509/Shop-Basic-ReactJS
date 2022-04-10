@@ -7,56 +7,6 @@ import { BrowserRouter as Router,
 import { Home } from './pages/home'
 import { About } from './pages/about'
 import { NotFound } from './pages/NotFound'
-import { createStore } from 'redux'
-
-const ADD = "ADD"
-const REMOVE = "REMOVE"
-
-const Products = [
-
-]
-//Redux
-const messageReducer = (p = [], action) => {
-    switch (action.type) {
-        case ADD: 
-            Products.push(action.product)
-        return  Products
-        case REMOVE: 
-        return Products
-        default: 
-        return p
-    }
-}
-
-const addProduct = (product) => {
-    return(
-        {
-            type: ADD, 
-            product
-        }, 
-        {
-            type: REMOVE, 
-            product
-        }
-    )
-}
-const store = createStore(messageReducer)
-//React
-
-const  mapStateToProps = (state) => {
-  return {
-    products: state
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return  {
-    submitNewProduct :(prod) => {
-      dispatch(addProduct(prod))
-    } 
-  }
-}
-
 
 
 function App() {
