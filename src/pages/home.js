@@ -1,6 +1,7 @@
 
 import { Provider, connect } from 'react-redux'
 import React from 'react'
+import {Card, ListGroup } from 'react-bootstrap'
 import {store, mapDispatchToProps, mapStateToProps} from '../redux/productRedux'
 
 class AppProcessing extends React.Component {
@@ -14,10 +15,12 @@ class AppProcessing extends React.Component {
     }
     render() {
         return(
-            <>
-                <button onClick={this.subProd}>Presioname</button>
-                <div>{this.props.products}</div>
-            </>
+            <section>
+                <div>
+                    <button onClick={this.subProd}>Presioname</button>
+                    <div>{this.props.products}</div>
+                </div>
+            </section>
         )
     }
 }

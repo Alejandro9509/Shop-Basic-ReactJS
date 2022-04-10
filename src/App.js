@@ -7,12 +7,14 @@ import { BrowserRouter as Router,
 import { Home } from './pages/home'
 import { About } from './pages/about'
 import { NotFound } from './pages/NotFound'
+import { Navbar, Container, Nav } from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {
   return (
     <Router>
-      <Nav />
+      <Navigation />
       <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path="about" element={<About />}></Route>
@@ -22,12 +24,19 @@ function App() {
   );
 }
 
-function Nav() {
+function Navigation() {
   return (
-    <div>
-      <NavLink to='/'>Home</NavLink>
-      <NavLink to='about'>About</NavLink>
-    </div>
+    <header>
+      <Navbar bg="dark" variant='dark'>
+        <Container>
+          <Navbar.Brand >Barra de Navegacion</Navbar.Brand>
+          <Nav className="me-auto">
+            <NavLink className='nav-link' to="/">Inicio</NavLink>
+            <NavLink className='nav-link' to="about">Acerca</NavLink>
+          </Nav>
+        </Container>
+      </Navbar>
+    </header>
   )
 }
 
