@@ -1,7 +1,7 @@
 
 import { Provider, connect } from 'react-redux'
 import React, { useState } from 'react'
-import { Modal , Button, InputGroup,  FormControl} from 'react-bootstrap'
+import { Modal , Button, InputGroup,  FormControl, Table} from 'react-bootstrap'
 import {store, mapDispatchToProps, mapStateToProps} from '../redux/productRedux'
 
 function ModalView(props) {
@@ -19,7 +19,8 @@ function ModalView(props) {
         setPrice(event.target.value)
     }
     const handleSubmit = () => {
-     if(Number(price)) {
+        console.log()
+        if(Number(price)) {
                         props.submit.submitNewProduct([prod, price]);
                         setShow(false); 
                         }else divField.current.className = 'alert alert-danger'
@@ -51,7 +52,6 @@ function ModalView(props) {
             <Button variant="primary" onClick={handleSubmit}>
               Añadir
             </Button>
-
           </Modal.Footer>
         </Modal>
       </div>
@@ -62,7 +62,6 @@ function ModalView(props) {
 class AppProcessing extends React.Component {
     constructor(props) {
         super(props)
-        
     }
      
     render() {
@@ -70,9 +69,38 @@ class AppProcessing extends React.Component {
             <>
             <section>
                 <div className='box-principal' > 
-                    <ModalView submit={this.props} />
-                    
-                    <div>{this.props.products}</div>
+                    <div>
+                        <ModalView submit={this.props} />
+                    </div>
+                    <div>
+                        <Table striped bordered>
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Nombre del producto</th>
+                              <th>Precio del producto</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {
+                            this.props.products.map((item , index) => {
+                              return(
+                                <tr>
+                                  <td>{index + 1}</td>
+                                  <td>{item[0]}</td>
+                                  <td>{item[1]}</td>
+                                </tr>
+                              )
+                            })
+                          }
+                          </tbody>
+                        </Table>
+                    </div>
+                    <div>
+                      {this.props.products.length > 0 &&
+                        <Button variant="secondary">Cobrar</Button>
+                      }
+                    </div>
                 </div>
             </section>
             </>

@@ -1,8 +1,32 @@
+@mixin border-radius($value) {
+    border-radius: $value;
+}
+
+@mixin border-shadow($value...){
+    -webkit-box-shadow: $value ;
+    -moz-box-shadow: $value; 
+    box-shadow: $value;
+}
+body {
+    background-color: #f2f2f2 !important;
+}
 .box-principal{
     position: relative;
     margin: 20px auto; 
-    width: 500px;
-    min-height: 300px;
-    background-color: red; 
-    
+    width: 700px;
+    min-height: 100px;
+    padding:20px; 
+    background-color: white; 
+    @include border-radius(5px); 
+    @include border-shadow(1px -1px 15px -6px rgba(0,0,0,0.75)); 
+
+    > div:first-child {
+        margin-bottom: 10px; 
+    }   
+
+    > div:last-child {
+        
+        box-sizing: border-box;
+
+    }
 }
