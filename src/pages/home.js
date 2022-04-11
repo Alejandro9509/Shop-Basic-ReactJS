@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import { Modal , Button, InputGroup,  FormControl, Table} from 'react-bootstrap'
 import {store, mapDispatchToProps, mapStateToProps} from '../redux/productRedux'
 
+
+
 function ModalView(props) {
 
     const [show, setShow] = useState(false);
@@ -57,7 +59,29 @@ function ModalView(props) {
       </div>
     );
   }
-  
+
+function ModalViewCobrar(props){
+  const [cobrar, setCobrar] = useState(false)
+  const handleCobrar = () => {
+      props.cobrar.clear()
+  }
+  return(
+    <>
+      <Button onClick={() => setCobrar(true)}>Cobrar</Button>
+      <Modal show={cobrar} onHide={() => setCobrar(false)}>
+          <Modal.Header>
+            <Modal.Title>Cobrar</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Es un total de: {props.cobrar.products.reduce((counter, item) => { return counter+= Number(item[1]) }, 0)}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={handleCobrar}>Cobrar</Button>
+          </Modal.Footer>
+      </Modal>
+    </>
+  )
+}
 
 class AppProcessing extends React.Component {
     constructor(props) {
@@ -98,7 +122,7 @@ class AppProcessing extends React.Component {
                     </div>
                     <div>
                       {this.props.products.length > 0 &&
-                        <Button variant="secondary">Cobrar</Button>
+                        <ModalViewCobrar cobrar={this.props}/>
                       }
                     </div>
                 </div>
