@@ -1,10 +1,10 @@
 import './App.scss'
-import { BrowserRouter as Router, 
+import { BrowserRouter as Router,
          Routes,
-         Route, 
+         Route,
          NavLink
         } from "react-router-dom"
-import { Home } from './pages/home'
+import { Home } from './pages/home/home'
 import { About } from './pages/about'
 import { NotFound } from './pages/NotFound'
 import { Navbar, Container, Nav } from 'react-bootstrap'
