@@ -8,6 +8,8 @@ const messageReducer = (p = [], action) => {
         return [...p, action.prd]
         case CLEAR: 
         return []
+        case REMOVE: 
+        return p.filter((_, i) =>  i != action.index)
         default: 
         return p
     }
@@ -20,10 +22,10 @@ const addProduct = (product) => {
         }
 }
 
-const removeProduct = (product) => {
+const removeProduct = (index) => {
   return {
     type: REMOVE, 
-    prd: product
+    index: index
   }
 } 
 const clearProducts =  () => {
@@ -48,8 +50,8 @@ export const mapDispatchToProps = (dispatch) => {
       clear: () => {
         dispatch(clearProducts())
       }, 
-      removeAProduct: (prod) => {
-        dispatch(removeProduct(prod))
+      removeAProduct: (index) => {
+        dispatch(removeProduct(index))
       }
     }
   }

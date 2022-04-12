@@ -1,6 +1,6 @@
 
 import { Provider, connect } from 'react-redux'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Modal , Button, InputGroup,  FormControl, Table} from 'react-bootstrap'
 import {store, mapDispatchToProps, mapStateToProps} from '../redux/productRedux'
 
@@ -83,11 +83,23 @@ function ModalViewCobrar(props){
   )
 }
 
+
+
 class AppProcessing extends React.Component {
     constructor(props) {
         super(props)
+        this.handleDel = this.handleDelete.bind(this)
     }
-     
+
+
+
+    removeProd(index){
+      console.log(index)
+      
+    }
+    handleDelete = (event) => {
+      this.props.removeAProduct(event.target.id)
+    }
     render() {
         return(
             <>
@@ -97,28 +109,29 @@ class AppProcessing extends React.Component {
                         <ModalView submit={this.props} />
                     </div>
                     <div>
-                        <Table striped bordered>
-                          <thead>
+                    <Table striped bordered>
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Nombre del producto</th>
+                          <th>Precio del producto</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {
+                        this.props.products.map((item , index) => {
+                          return(
                             <tr>
-                              <th>#</th>
-                              <th>Nombre del producto</th>
-                              <th>Precio del producto</th>
+                              <td>{index + 1}</td>
+                              <td>{item[0]}</td>
+                              <td>{item[1]}</td>
+                              <td><Button id={index} onClick={this.handleDel}>Remover</Button></td>
                             </tr>
-                          </thead>
-                          <tbody>
-                          {
-                            this.props.products.map((item , index) => {
-                              return(
-                                <tr>
-                                  <td>{index + 1}</td>
-                                  <td>{item[0]}</td>
-                                  <td>{item[1]}</td>
-                                </tr>
-                              )
-                            })
-                          }
-                          </tbody>
-                        </Table>
+                          )
+                        })
+                      }
+                      </tbody>
+                    </Table>
                     </div>
                     <div>
                       {this.props.products.length > 0 &&
