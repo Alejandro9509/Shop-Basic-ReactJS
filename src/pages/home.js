@@ -4,16 +4,19 @@ import React, { useState} from 'react'
 import { Modal , Button, InputGroup,  FormControl, Table} from 'react-bootstrap'
 import {store, mapDispatchToProps, mapStateToProps} from '../redux/productRedux'
 
+function AddMoney(props) {
+  return (
+    <Button>Agregar efectivo</Button>
+  )
+}
 
-
-function ModalView(props) {
+function AddProduct(props) {
 
     const [show, setShow] = useState(false);
     const [prod, setProduct] = useState("");
     const [price, setPrice] = useState(0);
     const divPrecio = React.useRef(null);
     const divProducto = React.useRef(null);
-
 
     const handleProd = (event) => {
         setProduct(event.target.value)
@@ -30,7 +33,6 @@ function ModalView(props) {
                           setShow(false);
                         }else divPrecio.current.className = 'alert alert-danger'
         }
-
     }
     return (
       <div>
@@ -88,17 +90,42 @@ function ModalViewCobrar(props){
     </>
   )
 }
-
+function TableProducts(props){
+  function handleDelete(event){
+    props.show.removeAProduct(event.target.id)
+  }
+  return (
+    <Table striped bordered>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre del producto</th>
+          <th>Precio del producto</th>
+        </tr>
+      </thead>
+      <tbody>
+      {
+        props.show.products.map((item , index) => {
+          return(
+            <tr>
+              <td>{index + 1}</td>
+              <td>{item[0]}</td>
+              <td>{item[1]}</td>
+              <td><Button id={index} onClick={handleDelete}>Remover</Button></td>
+            </tr>
+          )
+        })
+      }
+      </tbody>
+    </Table>
+  )
+}
 class AppProcessing extends React.Component {
     constructor(props) {
         super(props)
-        this.handleDel = this.handleDelete.bind(this)
-    }
-    removeProd(index){
-      console.log(index)
-    }
-    handleDelete = (event) => {
-      this.props.removeAProduct(event.target.id)
+        this.state = {
+          submenu: true
+        }
     }
     render() {
         return(
@@ -106,35 +133,25 @@ class AppProcessing extends React.Component {
             <section>
                 <div className='box-principal' >
                     <div>
-                        <ModalView submit={this.props} />
-                    </div>
-                    <div>
-                    <Table striped bordered>
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>Nombre del producto</th>
-                          <th>Precio del producto</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      {
-                        this.props.products.map((item , index) => {
-                          return(
-                            <tr>
-                              <td>{index + 1}</td>
-                              <td>{item[0]}</td>
-                              <td>{item[1]}</td>
-                              <td><Button id={index} onClick={this.handleDel}>Remover</Button></td>
-                            </tr>
-                          )
-                        })
+                      {this.state.submenu ?
+                        <AddProduct submit={this.props} /> :
+                        <AddMoney money={this.props} />
                       }
-                      </tbody>
-                    </Table>
+
+                      {this.state.submenu ?
+                        <Button onClick={() => this.setState({ submenu: false }) }>Monedas</Button> :
+                        <Button onClick={() => this.setState({ submenu: true })}>Caja</Button>
+                      }
                     </div>
                     <div>
-                      {this.props.products.length > 0 &&
+                      {this.state.submenu ?
+                      <TableProducts show={this.props} />:
+                      <div>Dinero</div>
+                      }
+                    </div>
+                    <div>
+                      {
+                        this.props.products.length > 0 && this.state.submenu &&
                         <ModalViewCobrar cobrar={this.props}/>
                       }
                     </div>
